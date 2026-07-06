@@ -1,5 +1,5 @@
 requires = [ "tox>=4.56.1", "tox-uv>=1.35.2" ]
-env_list = [ "fix", "3.14", "3.13", "3.12", "3.11", "type", "pkg_meta" ]
+env_list = [ "3.14", "3.13", "3.12", "3.11", "fix", "pkg_meta", "type" ]
 skip_missing_interpreters = true
 
 [env_run_base]
@@ -13,7 +13,7 @@ set_env.COVERAGE_FILECOVERAGE_PROCESS_START = "{tox_root}{/}pyproject.toml"
 commands = [
   [
     "pytest",
-    { replace = "posargs", extend = true, default = [
+    { replace = "posargs", default = [
       "--no-cov-on-fail",
       "--cov",
       "{env_site_packages_dir}{/}mdformat_zola",
@@ -28,7 +28,7 @@ commands = [
       "--cov-report",
       "html:{env_tmp_dir}{/}htmlcov",
       "tests",
-    ] },
+    ], extend = true },
   ],
 ]
 
@@ -41,22 +41,10 @@ pass_env = [
     "env_run_base",
     "pass_env",
   ], extend = true },
-  "PROGRAMDATA",
   "DISABLE_PRE_COMMIT_UV_PATCH",
+  "PROGRAMDATA",
 ]
 commands = [ [ "pre-commit", "run", "--all-files", "--show-diff-on-failure", { replace = "posargs", extend = true } ] ]
-
-[env.type]
-package = "editable"
-dependency_groups = [ "type" ]
-description = "Run Python type checker"
-commands = [
-  [
-    "ty",
-    "check",
-    { replace = "posargs", extend = true, default = [] },
-  ],
-]
 
 [env.pkg_meta]
 description = "check that the long description is valid"
@@ -81,6 +69,18 @@ commands = [
     "check-wheel-contents",
     "--no-config",
     "{env_tmp_dir}",
+  ],
+]
+
+[env.type]
+description = "Run Python type checker"
+package = "editable"
+dependency_groups = [ "type" ]
+commands = [
+  [
+    "ty",
+    "check",
+    { replace = "posargs", default = [], extend = true },
   ],
 ]
 
