@@ -80,7 +80,12 @@ commands = [
   [
     "ty",
     "check",
-    { replace = "posargs", default = [], extend = true },
+    "--error",
+    "all",
+    "--output-format",
+    "concise",
+    "--error-on-warning",
+    ".",
   ],
 ]
 
