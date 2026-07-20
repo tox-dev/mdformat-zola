@@ -80,7 +80,7 @@ def render_fence(node: RenderTreeNode, context: RenderContext) -> str:
     if fmt_func := context.options.get("codeformatters", {}).get(lang):
         try:
             code_block = fmt_func(code_block, info)
-        except Exception:  # noqa: BLE001 - a formatter error must never crash mdformat
+        except Exception:  # ruff:ignore[blind-except] - a formatter error must never crash mdformat
             LOGGER.warning("Failed formatting content of a %s code block", lang)
         else:
             if code_block and not code_block.endswith("\n"):
