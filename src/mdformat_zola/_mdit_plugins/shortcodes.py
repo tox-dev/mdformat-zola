@@ -40,7 +40,7 @@ def shortcode_plugin(md: MarkdownIt) -> None:
     md.block.ruler.before("fence", "zola_shortcode_block", _block_rule, {"alt": ["paragraph", "blockquote", "list"]})
 
 
-def _inline_rule(state: StateInline, silent: bool) -> bool:  # noqa: FBT001 - markdown-it-py rule signature
+def _inline_rule(state: StateInline, silent: bool) -> bool:  # ruff:ignore[boolean-type-hint-positional-argument] - markdown-it-py rule signature
     src, pos = state.src, state.pos
     for open_delim, close_delim, escaped in _INLINE_DELIMITERS:
         if not src.startswith(open_delim, pos):
@@ -60,7 +60,7 @@ def _inline_rule(state: StateInline, silent: bool) -> bool:  # noqa: FBT001 - ma
     return False
 
 
-def _block_rule(state: StateBlock, start_line: int, end_line: int, silent: bool) -> bool:  # noqa: FBT001 - markdown-it-py rule signature
+def _block_rule(state: StateBlock, start_line: int, end_line: int, silent: bool) -> bool:  # ruff:ignore[boolean-type-hint-positional-argument] - markdown-it-py rule signature
     if (opening := _open_delimiter(_line(state, start_line))) is None:
         return False
     escaped, close_delim = opening
