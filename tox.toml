@@ -8,6 +8,7 @@ package = "wheel"
 wheel_build_env = ".pkg"
 dependency_groups = [ "test" ]
 pass_env = [ "PYTEST_*" ]
+set_env.COVERAGE_CORE = "ctrace"  # sysmon (3.14 default) cannot record the dynamic contexts --cov-context needs
 set_env.COVERAGE_FILE = { replace = "env", name = "COVERAGE_FILE", default = "{env_tmp_dir}{/}.coverage" }
 set_env.COVERAGE_FILECOVERAGE_PROCESS_START = "{tox_root}{/}pyproject.toml"
 commands = [
