@@ -12,6 +12,8 @@ import mdformat.plugins
 from mdformat_zola._syntax import format_attrs, format_fence_info
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from mdformat.renderer import RenderContext, RenderTreeNode
 
 LOGGER: Final = logging.getLogger(__name__)
@@ -50,7 +52,9 @@ def render_zola_shortcode_block(node: RenderTreeNode, context: RenderContext) ->
 
 
 def _markdown_shortcodes(context: RenderContext) -> frozenset[str]:
-    configured = context.options.get("mdformat", {}).get("plugin", {}).get("zola", {}).get("markdown_shortcodes")
+    configured: str | Iterable[str] | None = (
+        context.options.get("mdformat", {}).get("plugin", {}).get("zola", {}).get("markdown_shortcodes")
+    )
     if configured is None:
         return _DEFAULT_MARKDOWN_SHORTCODES
     if isinstance(configured, str):
