@@ -14,7 +14,7 @@ permissions:
 jobs:
   test:
     name: 🧪 test ${{ matrix.py }} - ${{ matrix.os }}
-    if: github.event_name != 'schedule' || github.repository_owner == 'gaborbernat'
+    if: github.event_name != 'schedule' || github.repository_owner == 'tox-dev'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 40
     strategy:
@@ -52,7 +52,7 @@ jobs:
           DIFF_AGAINST: HEAD
   check:
     name: 🔎 check ${{ matrix.tox_env }} - ${{ matrix.os }}
-    if: github.event_name != 'schedule' || github.repository_owner == 'gaborbernat'
+    if: github.event_name != 'schedule' || github.repository_owner == 'tox-dev'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
