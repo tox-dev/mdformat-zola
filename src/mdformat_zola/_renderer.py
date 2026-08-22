@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import TYPE_CHECKING, Final
+from typing import TYPE_CHECKING, Final, cast
 
 import mdformat
 import mdformat.plugins
@@ -52,8 +52,9 @@ def render_zola_shortcode_block(node: RenderTreeNode, context: RenderContext) ->
 
 
 def _markdown_shortcodes(context: RenderContext) -> frozenset[str]:
-    configured: str | Iterable[str] | None = (
-        context.options.get("mdformat", {}).get("plugin", {}).get("zola", {}).get("markdown_shortcodes")
+    configured = cast(
+        "str | Iterable[str] | None",
+        context.options.get("mdformat", {}).get("plugin", {}).get("zola", {}).get("markdown_shortcodes"),
     )
     if configured is None:
         return _DEFAULT_MARKDOWN_SHORTCODES
