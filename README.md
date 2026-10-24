@@ -2,13 +2,12 @@
 
 [![PyPI](https://img.shields.io/pypi/v/mdformat-zola?style=flat-square)](https://pypi.org/project/mdformat-zola/)
 [![Supported Python versions](https://img.shields.io/pypi/pyversions/mdformat-zola.svg)](https://pypi.org/project/mdformat-zola/)
-[![check](https://github.com/gaborbernat/mdformat-zola/actions/workflows/check.yaml/badge.svg)](https://github.com/gaborbernat/mdformat-zola/actions/workflows/check.yaml)
+[![check](https://github.com/tox-dev/mdformat-zola/actions/workflows/check.yaml/badge.svg)](https://github.com/tox-dev/mdformat-zola/actions/workflows/check.yaml)
 
 Mdformat plugin for [Zola](https://www.getzola.org)-flavored Markdown. It formats Zola content files while keeping
 shortcodes, heading anchors, and code-block annotations intact.
 
-See the [changelog](CHANGELOG.md) for released changes. Pull requests need a `changelog.d/<PR>.<type>.md` fragment; use
-the `skip news` label for changes that do not need release notes.
+See the [changelog](CHANGELOG.md) for released changes and [contributing guide](CONTRIBUTING.md) for fragment rules.
 
 Plain mdformat mangles Zola content. It reflows shortcode bodies (a Mermaid diagram becomes one escaped line), escapes
 the `*` in `{{/* … */}}`, and wraps long inline shortcodes mid-call. This plugin adds Zola's syntax to mdformat so those

@@ -1,21 +1,23 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
+  "hatch-fancy-pypi-readme>=25.1",
   "hatch-vcs>=0.5",
   "hatchling>=1.32.4",
 ]
 
 [project]
 name = "mdformat-zola"
+import-names = [ "mdformat_zola" ]
 description = "Mdformat plugin for Zola-flavored Markdown"
-readme = "README.md"
 keywords = [
   "formatter",
   "markdown",
   "mdformat",
   "zola",
 ]
-license.file = "LICENSE"
+license = "MIT"
+license-files = [ "LICENSE" ]
 maintainers = [
   { name = "Bernát Gábor", email = "gaborjbernat@gmail.com" },
 ]
@@ -23,7 +25,6 @@ requires-python = ">=3.11"
 classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Developers",
-  "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3 :: Only",
@@ -36,6 +37,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dynamic = [
+  "readme",
   "version",
 ]
 dependencies = [
@@ -53,10 +55,11 @@ dependencies = [
   "mdformat-web>=0.2",
   "mdit-py-plugins>=0.6.1",
 ]
-urls.Documentation = "https://github.com/gaborbernat/mdformat-zola"
-urls.Homepage = "https://github.com/gaborbernat/mdformat-zola"
-urls.Source = "https://github.com/gaborbernat/mdformat-zola"
-urls.Tracker = "https://github.com/gaborbernat/mdformat-zola/issues"
+urls.Changelog = "https://github.com/tox-dev/mdformat-zola/blob/main/CHANGELOG.md"
+urls.Documentation = "https://github.com/tox-dev/mdformat-zola"
+urls.Homepage = "https://github.com/tox-dev/mdformat-zola"
+urls.Source = "https://github.com/tox-dev/mdformat-zola"
+urls.Tracker = "https://github.com/tox-dev/mdformat-zola/issues"
 entry-points."mdformat.parser_extension".zola = "mdformat_zola"
 
 [dependency-groups]
@@ -78,9 +81,50 @@ type = [
 ]
 lint = [ "pre-commit-uv>=4.3" ]
 pkg-meta = [ "check-wheel-contents>=0.6.3", "twine>=7", "uv>=0.12.22" ]
+release = [
+  "prek>=0.5",
+  "release-creator>=1.1",
+  "towncrier>=26.9",
+]
+release-check = [
+  "prek>=0.5",
+]
+release-news = [
+  "release-creator>=1.1",
+  "towncrier>=26.9",
+]
+release-notes = [
+  "release-creator>=1.1",
+]
+release-prepare = [
+  "prek>=0.5",
+  "release-creator>=1.1",
+  "towncrier>=26.9",
+]
+release-validate = [
+  "prek>=0.5",
+  "release-creator>=1.1",
+]
 
 [tool.hatch]
 version.source = "vcs"
+metadata.hooks.fancy-pypi-readme.content-type = "text/markdown"
+metadata.hooks.fancy-pypi-readme.fragments = [ { path = "README.md" } ]
+metadata.hooks.fancy-pypi-readme.substitutions = [
+  { pattern = '''(?x)
+    (?<!!)\[(?P<label>[^\]]+)\]\( # Link text, excluding images
+    (?P<path>CHANGELOG\.md|CONTRIBUTING\.md) # Repository files linked from the README
+    \)
+    ''', replacement = '[\g<label>](https://github.com/tox-dev/mdformat-zola/blob/main/\g<path>)' },
+]
+
+[tool.uv]
+dependency-groups.release = { requires-python = ">=3.15" }
+dependency-groups.release-check = { requires-python = ">=3.15" }
+dependency-groups.release-news = { requires-python = ">=3.15" }
+dependency-groups.release-notes = { requires-python = ">=3.15" }
+dependency-groups.release-prepare = { requires-python = ">=3.15" }
+dependency-groups.release-validate = { requires-python = ">=3.15" }
 
 [tool.ruff]
 target-version = "py311"
@@ -156,9 +200,20 @@ html.skip_covered = false
 name = "mdformat-zola"
 directory = "changelog.d"
 filename = "CHANGELOG.md"
-title_format = "## {version} ({project_date})"
+template = "release_creator.fragments:template.jinja2"
+title_format = false
 type = [
-  { directory = "feature", name = "Features", showcontent = true },
-  { directory = "bugfix", name = "Bug fixes", showcontent = true },
+  { directory = "feature", name = "Added", showcontent = true },
+  { directory = "change", name = "Changes", showcontent = true },
+  { directory = "bugfix", name = "Fixed", showcontent = true },
   { directory = "doc", name = "Documentation", showcontent = true },
+  { directory = "breaking", name = "Breaking changes", showcontent = true },
+  { directory = "security", name = "Security", showcontent = true },
+  { directory = "performance", name = "Performance", showcontent = true },
+  { directory = "deprecation", name = "Deprecated", showcontent = true },
+  { directory = "removal", name = "Removed", showcontent = true },
+  { directory = "packaging", name = "Packaging", showcontent = true },
 ]
+
+[tool.release-creator]
+locks.exclude-newer-package = { release-creator = "2026-10-24T09:08:40Z" }
