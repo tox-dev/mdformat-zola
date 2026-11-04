@@ -6,17 +6,17 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "17 2 * * *"
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions:
   contents: read
 jobs:
   test:
     name: 🧪 test
     if: github.event_name != 'schedule' || github.repository_owner == 'tox-dev'
-    uses: tox-dev/github-workflows/.github/workflows/check.yaml@bceb5c005e19823dc8835f536f53f172ae223927 # 6.5.0
+    uses: tox-dev/github-workflows/.github/workflows/check.yaml@13381289334b15375958be7f7438f3c3d860e575 # 6.5.5
     permissions:
       contents: read
     with:
@@ -28,15 +28,10 @@ jobs:
           {"env": "3.13", "python": "3.13"},
           {"env": "3.12", "python": "3.12"},
           {"env": "3.11", "python": "3.11"},
-          {"env": "3.15", "os": "macos-15"},
           {"env": "3.15", "os": "windows-2025"},
-          {"env": "3.14", "python": "3.14", "os": "macos-15"},
           {"env": "3.14", "python": "3.14", "os": "windows-2025"},
-          {"env": "3.13", "python": "3.13", "os": "macos-15"},
           {"env": "3.13", "python": "3.13", "os": "windows-2025"},
-          {"env": "3.12", "python": "3.12", "os": "macos-15"},
           {"env": "3.12", "python": "3.12", "os": "windows-2025"},
-          {"env": "3.11", "python": "3.11", "os": "macos-15"},
           {"env": "3.11", "python": "3.11", "os": "windows-2025"},
           {"env": "dev"},
           {"env": "dev", "os": "windows-2025"},
@@ -53,6 +48,6 @@ jobs:
     permissions: {}
     steps:
       - name: 🚦 Require all needed jobs to pass
-        uses: tox-dev/github-workflows/required-checks@bceb5c005e19823dc8835f536f53f172ae223927 # 6.5.0
+        uses: tox-dev/github-workflows/required-checks@13381289334b15375958be7f7438f3c3d860e575 # 6.5.5
         with:
           needs: ${{ toJSON(needs) }}
