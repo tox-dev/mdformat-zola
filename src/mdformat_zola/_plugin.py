@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+__lazy_modules__ = [
+    "argparse",
+    f"{__spec__.parent}._mdit_plugins",  # ty: ignore[missing-union-attribute]  # imported modules have a spec
+    f"{__spec__.parent}._syntax",  # ty: ignore[missing-union-attribute]  # imported modules have a spec
+]
+
 import argparse
 from typing import TYPE_CHECKING, Final
 
