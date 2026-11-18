@@ -13,6 +13,10 @@ The shortcode grammar mirrors Zola's ``components/markdown/src/content.pest``.
 
 from __future__ import annotations
 
+__lazy_modules__ = [
+    "typing",
+]
+
 import re
 import string
 from typing import Final

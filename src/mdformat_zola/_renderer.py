@@ -2,6 +2,12 @@
 
 from __future__ import annotations
 
+__lazy_modules__ = [
+    "mdformat",
+    "mdformat.plugins",
+    f"{__spec__.parent}._syntax",  # ty: ignore[missing-union-attribute]  # imported modules have a spec
+]
+
 import logging
 import re
 from typing import TYPE_CHECKING, Final, cast

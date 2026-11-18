@@ -13,6 +13,10 @@ intact.
 
 from __future__ import annotations
 
+__lazy_modules__ = [
+    "functools",
+]
+
 from functools import partial
 from typing import TYPE_CHECKING, Literal, NamedTuple
 
